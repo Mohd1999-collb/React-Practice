@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 
 const Covid19 = () => {
 
@@ -13,19 +14,36 @@ const Covid19 = () => {
     const [search, setSerch] = useState();
 
     function fetchData(query) {
-        fetch(`https://disease.sh/v3/covid-19/countries/${query}`)
-            .then((data) => data.json()).then((response) =>
+        // Using fetch api
+        // fetch(`https://disease.sh/v3/covid-19/countries/${query}`)
+        //     .then((data) => data.json()).then((response) =>
+        //         setCovidHistory({
+        //             ...covidHis,
+        //             country: response.country,
+        //             cases: response.cases,
+        //             deaths: response.deaths,
+        //             recovered: response.recovered,
+        //             todayCases: response.todayCases
+
+
+        //         }))
+        //     .catch((error) => console.log(error.message));
+
+        // Using axios
+        axios.get(`https://disease.sh/v3/covid-19/countries/${query}`)
+            .then((response) => 
                 setCovidHistory({
                     ...covidHis,
-                    country: response.country,
-                    cases: response.cases,
-                    deaths: response.deaths,
-                    recovered: response.recovered,
-                    todayCases: response.todayCases
+                    country: response.data.country,
+                    cases: response.data.cases,
+                    deaths: response.data.deaths,
+                    recovered: response.data.recovered,
+                    todayCases: response.data.todayCases
 
 
-                }))
-            .catch((error) => console.log(error.message))
+                })
+                )
+            .catch((error) => console.log(error.message));
     }
 
     useEffect(() => {
