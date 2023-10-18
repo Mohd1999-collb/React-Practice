@@ -1,4 +1,4 @@
-import { SEARCH_MOVIE, INC } from "../action/actionType";
+import { SEARCH_MOVIE} from "../action/actionType";
 
 // All the logic written here
 

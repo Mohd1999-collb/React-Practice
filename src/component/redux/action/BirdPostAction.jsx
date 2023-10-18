@@ -1,8 +1,18 @@
-import { ADD_POST } from "./actionType";
+import { ADD_POST, INCREASELIKE } from "./actionType";
 
-export const addPost = (url) => {
+export const addPost = (bird) => {
     return {
         type : ADD_POST,
-        payLoad : url
+        payLoad : {
+            name : bird,
+            likes : 0
+        }
+    }
+}
+
+export const increaseLike = (index)=>{
+    return {
+        type : INCREASELIKE,
+        payLoad : index
     }
 }

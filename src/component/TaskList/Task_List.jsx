@@ -1,66 +1,86 @@
+import React, { useState } from 'react'
 
-import React from "react";
-import Task from "./Task";
+const Task_List = () => {
+    const [task, setTask] = useState([]);
+    const [name, setName] = useState("");
+    const [isEdit, setIsEdit] = useState(false)
+    const [num, setNum] = useState(0);
+    const [prev, setPrev] = useState("");
 
+    console.log(task)
 
+    function addTask() {
+        setTask([...task, name])
+        setName("");
+    }
 
+    function editTask(index) {
+        console.log("Edit function", index);
+        setNum(index);
+        setIsEdit(true);
+    }
 
-const Task_List = ({ tasks, onChangeTask, onDeleteTask }) => {
+    console.log(num + " ....")
+
+    function deleteTask(index) {
+        task.splice(index, 1);
+        setTask([...task]);
+    }
+
     return (
-        <ul>
-            {tasks &&
-                tasks.map((task) => (
-                    <Task
 
-                        key={task.id}
-                        task={task}
-                        onChange={onChangeTask}
-                        onDelete={onDeleteTask}
-                    />
-                ))}
-        </ul>
-    );
+
+        <div>
+            <h1>Task Manage</h1>
+            <input type="text" placeholder='Add task' value={name} onChange={(e) => setName(e.target.value)} />
+            <button onClick={addTask}>Add Task</button>
+            <br />
+            <br />
+            {
+                isEdit ?
+                    task.map((item, index) => (
+                        <li>
+                            <input type='checkbox' />
+
+                            {
+                                index == num ? 
+                                    <>
+                                        <input type='text' value={item} />
+                                        <button style={{ margin: "10px 15px" }}>Save</button>
+
+                                        <button onClick={() => deleteTask(prev)}>Delete</button>
+                                    </>
+
+                                
+                                    :
+                                    (
+                                        <>
+                                            {item}
+                                            <button style={{ margin: "10px 15px" }}>Edit</button>
+
+                                            <button onClick={() => deleteTask(prev)}>Delete</button>
+                                        </>
+
+                                    )
+                            }
+
+                        </li>
+                        )
+                        
+                    )
+                    :
+
+                    task.map((item, index) => (
+                        <li>
+                            <input type='checkbox' />
+                            {item}
+                            <button style={{ margin: "10px 15px" }} onClick={() => editTask(index)}>Edit</button>
+
+                            <button onClick={() => deleteTask(index)}>Delete</button>
+                        </li>))
+            }
+        </div>
+    )
 }
-
-
-// function Task({ task, onChange, onDelete }) {
-//     const [isEditing, setIsEditing] = useState(false);
-//     const [newText, setNewText] = useState(task.text);
-//     function handleEdit() {
-//         setIsEditing(true);
-//     }
-//     function handleCancel() {
-//         setIsEditing(false);
-//         setNewText(task.text);
-//     }
-//     function handleSave() {
-//         onChange({ ...task, text: newText });
-//         setIsEditing(false);
-//     }
-//     function handleDelete() {
-//         onDelete(task.id);
-//     }
-//     function handleChange(e) {
-//         setNewText(e.target.value);
-//     }
-//     return (
-//         <li>
-//             {isEditing ? (
-//                 <>
-
-//                     <input type="text" value={newText} onChange={handleChange} />
-//                     <button onClick={handleSave}>Save</button>
-//                     <button onClick={handleCancel}>Cancel</button>
-//                 </>
-//             ) : (
-//                 <>
-//                     <span>{task.text}</span>
-//                     <button onClick={handleEdit}>Edit</button>
-//                     <button onClick={handleDelete}>Delete</button>
-//                 </>
-//             )}
-//         </li>
-//     );
-// }
 
 export default Task_List
